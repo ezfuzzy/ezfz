@@ -1,0 +1,57 @@
+h1 {
+  background: linear-gradient(
+    90deg,
+    #004d06,
+    #00cc11,
+    #00c00a,
+    #00ff80,
+    #00ffec,
+    #00f7ff
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body {
+  font-family: Victor mono, Arial, sans-serif;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.contents-container {
+  display: grid;
+  grid-template-columns: repeat(5, 314px);
+  grid-template-rows: 271px;
+  margin-top: 50px;
+  gap: 10px;
+  justify-content: center;
+}
+
+.gameInfo {
+  border: 2px solid #333;
+  border-radius: 15px;
+  font-size: 24px;
+}
+
+li {
+  list-style-type: none;
+}
+
+.gameImg img {
+  margin-top: 5px;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.gameName {
+  margin-top: 10px;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}

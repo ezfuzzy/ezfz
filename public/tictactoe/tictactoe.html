@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="/tictactoe/tictactoe.css" />
+  </head>
+  <body>
+    <a href="/tictactoe">
+      <h1>Tic Tac Toe</h1>
+    </a>
+    <div id="board-container">
+      <table id="board">
+        <tr>
+          <td data-cell-index="0"></td>
+          <td data-cell-index="1"></td>
+          <td data-cell-index="2"></td>
+        </tr>
+        <tr>
+          <td data-cell-index="3"></td>
+          <td data-cell-index="4"></td>
+          <td data-cell-index="5"></td>
+        </tr>
+        <tr>
+          <td data-cell-index="6"></td>
+          <td data-cell-index="7"></td>
+          <td data-cell-index="8"></td>
+        </tr>
+      </table>
+      <button id="reset">다시하기</button>
+    </div>
+    <div id="message"></div>
+    <div id="scores">
+      <div id="scoreX">X: 0</div>
+      <div id="scoreO">O: 0</div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="tictactoe.js"></script>
+  </body>
+</html>
