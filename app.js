@@ -29,7 +29,7 @@ app.get("/tictactoe", (req, res) => {
 // Handle socket connections
 io.on("connection", (socket) => {
   console.log(
-    `User connected: ${new Date().toLocaleTimeString("en-GB", {
+    `Tictactoe User connected: ${new Date().toLocaleTimeString("en-GB", {
       hour12: false,
     })}`
   );
@@ -53,7 +53,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log(
-      `User disconnected: ${new Date().toLocaleTimeString("en-GB", {
+      `Tictactoe User disconnected: ${new Date().toLocaleTimeString("en-GB", {
         hour12: false,
       })}`
     );

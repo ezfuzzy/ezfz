@@ -5,53 +5,70 @@
     <link rel="stylesheet" href="/index/index.css" />
   </head>
   <body>
-    <h1>Welcome to the Game Hub</h1>
-    <div class="contents-container">
-      <!-- omok game  -->
-      <li class="gameInfo">
-        <a href="/omok" target="_self">
-          <span class="gameImg">
-            <img src="../images/omok-thumbnail.png" alt="" />
-          </span>
-          <span class="gameName">오 목</span>
+    <!-- include partial header -->
+    <div id="header-placeholder"></div>
+    <script>
+      fetch("partials/header.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("header-placeholder").innerHTML = html;
+        });
+    </script>
+    <!-- page content  -->
+    <div class="container">
+      <h1>
+        <a href="https://github.com/ezfuzzy" target="_blank">
+          <img src="../images/fuzzy.png" alt="" />
         </a>
-      </li>
-      <!-- tictactoe game  -->
-      <li class="gameInfo">
-        <a href="/tictactoe" target="_self">
-          <span class="gameImg">
-            <img src="../images/tictactoe-thumbnail.png" alt="" />
-          </span>
-          <span class="gameName">Tic Tac Toe</span>
-        </a>
-      </li>
-      <!-- catchMind game  -->
-      <li class="gameInfo">
-        <a href="/catchMind" target="_self">
-          <span class="gameImg">
-            <img src="../images/dummy.png" alt="" />
-          </span>
-          <span class="gameName">catchMind</span>
-        </a>
-      </li>
-      <!-- graph-visualizer  -->
-      <li class="gameInfo">
-        <a href="/graph-visualizer" target="_self">
-          <span class="gameImg">
-            <img src="../images/dummy.png" alt="" />
-          </span>
-          <span class="gameName">graph-visualizer</span>
-        </a>
-      </li>
-      <!-- memoryAllocateSimulator  -->
-      <li class="gameInfo">
-        <a href="/memoryAllocateSimulator" target="_self">
-          <span class="gameImg">
-            <img src="../images/dummy.png" alt="" />
-          </span>
-          <span class="gameName">메모리 할당 시뮬레이터</span>
-        </a>
-      </li>
+      </h1>
+
+      <div class="contents-container">
+        <!-- omok game  -->
+        <li class="gameInfo">
+          <a href="/omok" target="_self">
+            <span class="gameImg">
+              <img src="../images/omok-thumbnail.png" alt="" />
+            </span>
+            <span class="gameName">Omok</span>
+          </a>
+        </li>
+        <!-- tictactoe game  -->
+        <li class="gameInfo">
+          <a href="/tictactoe" target="_self">
+            <span class="gameImg">
+              <img src="../images/tictactoe-thumbnail.png" alt="" />
+            </span>
+            <span class="gameName">Tic Tac Toe</span>
+          </a>
+        </li>
+        <!-- catchMind game  -->
+        <li class="gameInfo">
+          <a href="/catchMind" target="_self">
+            <span class="gameImg">
+              <img src="../images/dummy.png" alt="" />
+            </span>
+            <span class="gameName">catchMind</span>
+          </a>
+        </li>
+        <!-- graph-visualizer  -->
+        <li class="gameInfo">
+          <a href="/graph-visualizer" target="_self">
+            <span class="gameImg">
+              <img src="../images/dummy.png" alt="" />
+            </span>
+            <span class="gameName">graph-visualizer</span>
+          </a>
+        </li>
+        <!-- memoryAllocateSimulator  -->
+        <li class="gameInfo">
+          <a href="/memoryAllocateSimulator" target="_self">
+            <span class="gameImg">
+              <img src="../images/dummy.png" alt="" />
+            </span>
+            <span class="gameName">memory allocate simulator</span>
+          </a>
+        </li>
+      </div>
     </div>
   </body>
 </html>

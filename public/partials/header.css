@@ -1,0 +1,40 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Victor mono, Arial, sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+}
+
+.left-menu {
+  order: 1; /* 왼쪽 메뉴를 첫 번째로 배치 */
+}
+
+.right-menu {
+  order: 3; /* 오른쪽 메뉴를 세 번째로 배치 */
+}
+
+.menu-button,
+.home-button {
+  background-color: transparent;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.notification-button,
+.dashboard-button,
+.toggle-theme {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 30px;
+}

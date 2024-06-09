@@ -4,8 +4,9 @@ body {
 }
 
 h1 {
-  margin-top: 20px;
-  background-color: #005813;
+  display: inline-block;
+  margin: 20px auto;
+  border-bottom: 2px solid #062;
 }
 
 a {

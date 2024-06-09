@@ -1,16 +1,13 @@
 h1 {
-  background: linear-gradient(
-    90deg,
-    #004d06,
-    #00cc11,
-    #00c00a,
-    #00ff80,
-    #00ffec,
-    #00f7ff
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  margin: 20px auto;
+  border-bottom: 2px solid #062;
+}
+
+h1 img {
+  width: 300px;
+  height: 125px;
+  margin-right: 10px;
 }
 
 body {
@@ -22,14 +19,17 @@ body {
 
 .contents-container {
   display: grid;
-  grid-template-columns: repeat(5, 314px);
-  grid-template-rows: 271px;
-  margin-top: 50px;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr;
+  width: 80%;
+  margin: auto;
   gap: 10px;
   justify-content: center;
 }
 
 .gameInfo {
+  display: flex;
+  flex-direction: column;
   border: 2px solid #333;
   border-radius: 15px;
   font-size: 24px;
@@ -49,6 +49,8 @@ li {
 .gameName {
   margin-top: 10px;
   display: block;
+  word-wrap: break-word;
+  font-weight: 600;
 }
 
 a {
