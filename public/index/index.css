@@ -10,11 +10,11 @@ h1 img {
   margin-right: 10px;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   h1 img {
     filter: brightness(0.8) invert(1);
   }
-}
+} */
 
 body {
   font-family: Victor mono, Arial, sans-serif;

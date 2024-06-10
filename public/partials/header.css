@@ -13,17 +13,18 @@ header {
 
 .left-menu {
   order: 1; /* 왼쪽 메뉴를 첫 번째로 배치 */
+  display: flex;
+  align-items: center;
 }
 
 .burger-menu {
-  display: flex;
-
   font-size: 30px;
   cursor: pointer;
-  position: fixed;
+  /* position: fixed; */
   top: 20px;
   left: 20px;
   z-index: 100;
+  margin-right: 10px;
 }
 
 .sideBar {
@@ -63,8 +64,25 @@ header {
   order: 2;
 }
 
+.search-textBox {
+  width: 250px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.search-button {
+  padding: 10px;
+  border: none;
+  background-color: #8f8f8f;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  /* margin-left: 10px; */
+}
+
 .right-menu {
-  order: 3; /* 오른쪽 메뉴를 세 번째로 배치 */
+  order: 3;
 }
 
 .menu-button,
