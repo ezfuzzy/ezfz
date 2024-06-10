@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/catchMind/catchMind.css" />
+    <link rel="icon" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
+  </head>
+  <body>
+    <!-- include partial header -->
+    <div id="header-placeholder"></div>
+    <script>
+      fetch("/partials/header.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("header-placeholder").innerHTML = html;
+        });
+    </script>
+    <!-- page content  -->
+    <div class="container">
+      <h1>CatchMind</h1>
+    </div>
+  </body>
+</html>

@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Omok</title>
     <link rel="stylesheet" href="/omok/omok.css" />
+    <link rel="icon" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
   </head>
   <body>
     <!-- include partial header -->
     <div id="header-placeholder"></div>
     <script>
-      fetch("../partials/header.html")
+      fetch("/partials/header.html")
         .then((response) => response.text())
         .then((html) => {
           document.getElementById("header-placeholder").innerHTML = html;

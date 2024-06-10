@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Visualizer</title>
+    <link rel="stylesheet" href="./graph-visualizer.css">
+    <link rel="icon" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
+</head>
+<body>
+    <!-- include partial header -->
+    <div id="header-placeholder"></div>
+    <script>
+      fetch("/partials/header.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("header-placeholder").innerHTML = html;
+        });
+    </script>
+    <div class="container">
+      <a href="/graph-visualizer">
+        <h1>Graph Visualizer</h1>
+      </a>
+        행렬로 그래프 그리기<br>
+        matrix to graph
+      
+      <form id="matrix-form">
+          <label for="matrix-input">Enter adjacency matrix with weights in JSON format:</label><br><br>
+          <textarea id="matrix-input" placeholder="[&#13;&#10   [0, 1, 0],&#13;&#10   [1, 0, 1],&#13;&#10   [0, 1, 0]&#13;&#10]"></textarea>
+          <button type="submit">Visualize</button><br>
+          <label for="weight-checkbox">
+            <input type="checkbox" name="weight-checkbox" id="weight-checkbox"> weight
+          </label>
+          <label for="direction-checkbox">
+          <input type="checkbox" name="direction-checkbox" id="direction-checkbox" style="margin-left: 30px;"> direction
+          </label>
+      </form>
+      <div id="tips">
+        you can move the nodes by dragging them around
+      </div>
+      <div id="graph"></div>   
+    </div>
+
+
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="./graph-visualizer.js"></script>
+    <script src="./graph.js"></script>
+</body>
+</html>
