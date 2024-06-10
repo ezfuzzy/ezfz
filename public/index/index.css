@@ -10,6 +10,12 @@ h1 img {
   margin-right: 10px;
 }
 
+@media (prefers-color-scheme: dark) {
+  h1 img {
+    filter: brightness(0.8) invert(1);
+  }
+}
+
 body {
   font-family: Victor mono, Arial, sans-serif;
   text-align: center;
@@ -44,6 +50,7 @@ li {
   width: 200px;
   height: 200px;
   object-fit: cover;
+  border-radius: 10px;
 }
 
 .gameName {

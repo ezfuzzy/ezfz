@@ -15,6 +15,54 @@ header {
   order: 1; /* 왼쪽 메뉴를 첫 번째로 배치 */
 }
 
+.burger-menu {
+  display: flex;
+
+  font-size: 30px;
+  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+}
+
+.sideBar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  z-index: 99;
+}
+
+.sideBar a {
+  padding: 10px 15px;
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+  display: block;
+  transition: 0.3s;
+}
+
+.sideBar a:hover {
+  background-color: #575757;
+}
+
+.sideBar .closeBtn {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  font-size: 36px;
+}
+
+.search-box {
+  order: 2;
+}
+
 .right-menu {
   order: 3; /* 오른쪽 메뉴를 세 번째로 배치 */
 }
@@ -42,4 +90,6 @@ img {
   margin-top: 5px;
   margin-right: 5px;
   margin-left: 5px;
+  /* filter: invert(95%) hue-rotate(180deg); */
+  /* filter: brightness(0.8) invert(1); */
 }

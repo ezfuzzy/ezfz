@@ -1,10 +1,30 @@
 <link rel="stylesheet" href="/partials/header.css" />
 <header>
   <div class="left-menu">
-    <button class="menu-button">&#9776;</button>
+    <!-- TODO: burger css not work and align same line with EZFZ  -->
+    <div c;ass="burger-menu">
+      <img src="/images/svg/burger.svg" alt="" />
+    </div>
+    <div class="sideBar">
+      <div class="sideBar" id="sideBar">
+        <a href="javascript:void(0)" class="closeBtn" id="closeBtn">&times;</a>
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/services">Services</a>
+        <a href="/contact">Contact</a>
+      </div>
+    </div>
     <a href="/" class="home-button">EZFZ</a>
   </div>
+  <!-- TODO: add search box api, make cool  -->
+  <div class="search-box">
+    <form action="/search">
+      <input type="text" class="search-textbox" name="searchInput" />
+      <button type="submit" class="search-button">Search</button>
+    </form>
+  </div>
   <div class="right-menu">
+    <!-- TODO: dark mode and save at local storage for next visit  -->
     <a href="">
       <img src="/images/svg/dark-mode.svg" alt="" />
     </a>
@@ -16,3 +36,4 @@
     </a>
   </div>
 </header>
+<script src="/partials/header.js"></script>
