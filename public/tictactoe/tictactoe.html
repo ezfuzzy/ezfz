@@ -9,12 +9,16 @@
   </head>
   <body>
     <!-- include partial header -->
-    <div id="header-placeholder"></div>
+    <div id="header"></div>
     <script>
       fetch("/partials/header.html")
         .then((response) => response.text())
         .then((html) => {
-          document.getElementById("header-placeholder").innerHTML = html;
+          document.getElementById("header").innerHTML = html;
+
+          const script = document.createElement("script");
+          script.src = "/partials/header.js";
+          document.body.appendChild(script);
         });
     </script>
     <!-- page content  -->
@@ -50,5 +54,6 @@
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="tictactoe.js"></script>
+    <script src="/partials/header.js"></script>
   </body>
 </html>

@@ -1,7 +1,11 @@
 # ezfuzzy (my website)
+
 www.ezfuzzy.xyz
-- socket io (tictactoe, omok, chat, notification)
-- stl visualizer
+blog: https://velog.io/@fuzzy/ezfz-main00
+
+- socket io
 - graph visualizer
+- stl visualizer
 - memory allocate simulator
+- fuzzy theori
 - //maybe visualize big data by ES

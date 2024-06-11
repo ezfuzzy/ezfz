@@ -13,6 +13,7 @@ h1 img {
 /* @media (prefers-color-scheme: dark) {
   h1 img {
     filter: brightness(0.8) invert(1);
+    filter: invert(95%) hue-rotate(180deg); >> 사용 
   }
 } */
 
