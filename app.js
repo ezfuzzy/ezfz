@@ -1,3 +1,4 @@
+const { log } = require("console");
 const express = require("express");
 const http = require("http");
 const path = require("path");
@@ -58,6 +59,18 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("turnChange", {
       nextPlayer: data.player === "X" ? "O" : "X",
     });
+  });
+
+  socket.on("win", (data) => {
+    io.emit("win", data);
+  });
+
+  socket.on("draw", () => {
+    io.emit("draw");
+  });
+
+  socket.on("gameEnd", () => {
+    io.emit("gameEnd");
   });
 
   socket.on("reset", () => {

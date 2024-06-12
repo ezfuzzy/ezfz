@@ -11,7 +11,7 @@ const scoreO = document.getElementById("scoreO");
 let currentPlayer = "X";
 let gameEnded = false;
 let score = { X: 0, O: 0 };
-let isMyTurn = false; // turn check
+let isMyTurn = true; // turn check
 
 cells.forEach((cell) => {
   cell.addEventListener("click", handleClick);
@@ -22,7 +22,7 @@ resetButton.addEventListener("click", () => {
 });
 
 function handleClick(event) {
-  if (gameEnded) return; // FIXME: 클라이언트의 차례가 아니거나 게임이 끝났을 때 클릭 이벤트 무시
+  if (!isMyTurn || gameEnded) return; // TODO: 클라이언트의 차례가 아니거나 게임이 끝났을 때 클릭 이벤트 무시
 
   const cell = event.target;
   const cellIndex = cell.getAttribute("data-cell-index");
@@ -34,15 +34,20 @@ function handleClick(event) {
     if (checkWin(currentPlayer)) {
       message.textContent = `Player ${currentPlayer} wins!`;
       gameEnded = true;
-      updateScore(currentPlayer);
+
+      socket.emit("win", { winner: currentPlayer });
       socket.emit("gameEnd");
-      resetButton.style.display = "block"; // 게임 종료 시 reset 버튼 표시
-      resetButton.disabled = false; // 게임이 종료되면 reset 버튼 활성화
-      board.classList.add("blur"); // 보드판에 흐릿한 효과 추가
+    } else if (checkDraw()) {
+      message.textContent = "Draw!";
+      gameEnded = true;
+      socket.emit("draw");
+      socket.emit("gameEnd");
     } else {
+      // 상대방 차례로 전환
       currentPlayer = currentPlayer === "X" ? "O" : "X";
-      isMyTurn = false; // 상대방 차례로 전환
+      isMyTurn = false;
       socket.emit("turnChange", { nextPlayer: currentPlayer });
+      message.textContent = `Player ${currentPlayer}'s turn`;
     }
   }
 }
@@ -73,10 +78,17 @@ function checkWin(player) {
   return false;
 }
 
-function updateScore(player) {
-  score[player]++;
-  scoreX.textContent = `X: ${score.X}`;
-  scoreO.textContent = `O: ${score.O}`;
+function checkDraw() {
+  // cells.forEach((cell) => {
+  //   if (cell.textContent == "") return false;
+  // });
+  // return true;
+}
+
+function gameEnd() {
+  resetButton.style.display = "block"; // 게임 종료 시 reset 버튼 표시
+  resetButton.disabled = false; // 게임이 종료되면 reset 버튼 활성화
+  board.classList.add("blur"); // 보드판에 흐릿한 효과 추가
 }
 
 function resetGame() {
@@ -93,22 +105,37 @@ function resetGame() {
   board.classList.remove("blur");
 }
 
+function updateScore(player) {
+  score[player]++;
+  scoreX.textContent = `X: ${score.X}`;
+  scoreO.textContent = `O: ${score.O}`;
+}
+
 socket.on("move", (data) => {
   const { index, player } = data;
   cells[index].textContent = player;
+  // 상대방 차례로 전환
+  currentPlayer = player === "X" ? "O" : "X";
+  isMyTurn = currentPlayer !== player;
+});
 
-  if (checkWin(player)) {
-    message.textContent = `Player ${player} wins!`;
-    gameEnded = true;
-    updateScore(player);
-    socket.emit("gameEnd"); // 게임 종료 시 이벤트 전송
-    resetButton.style.display = "block"; // 게임 종료 시 reset 버튼 표시
-    resetButton.disabled = false; // 게임이 종료되면 reset 버튼 활성화
-    board.classList.add("blur"); // 보드판에 흐릿한 효과 추가
+socket.on("win", (data) => {
+  if (data.winner === currentPlayer) {
+    message.textContent = `You win!`;
   } else {
-    currentPlayer = player === "X" ? "O" : "X";
-    isMyTurn = currentPlayer !== player;
+    message.textContent = `You Lose`;
   }
+  gameEnded = true;
+  updateScore(data.winner);
+});
+
+socket.on("draw", () => {
+  message.textContent = "Draw!";
+  gameEnded = true;
+});
+
+socket.on("gameEnd", () => {
+  gameEnd();
 });
 
 socket.on("reset", () => {
@@ -119,25 +146,4 @@ socket.on("turnChange", (data) => {
   const { nextPlayer } = data;
   isMyTurn = currentPlayer === nextPlayer; // 다음 플레이어가 내가 맞는지 확인
   message.textContent = `Player ${nextPlayer}'s turn`;
-});
-
-socket.on("gameEnd", () => {
-  // FIXME: 제대로 동작 x
-  resetButton.style.display = "block"; // 게임 종료 시 reset 버튼 표시
-  resetButton.disabled = false; // 게임이 종료되면 reset 버튼 활성화
-  board.classList.add("blur"); // 보드판에 흐릿한 효과 추가
-});
-
-socket.on("win", (data) => {
-  if (data.winner === mySymbol) {
-    message.textContent = `You win!`;
-  } else {
-    message.textContent = `Player ${data.winner} wins!`;
-  }
-  gameEnded = true;
-  updateScore(data.winner);
-  resetButton.style.display = "block";
-  boardContainer.classList.add("blur");
-  resetButton.disabled = false;
-  currentPlayer = data.winner === "X" ? "O" : "X"; // 진 클라이언트도 다음 턴을 받도록 변경
 });
