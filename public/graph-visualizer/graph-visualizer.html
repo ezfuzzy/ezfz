@@ -25,14 +25,21 @@
         matrix to graph
       
       <form id="matrix-form">
-          <label for="matrix-input">Enter adjacency matrix with weights in JSON format:</label><br><br>
+          <p id="input-tip">Enter adjacency matrix with weights in JSON format:<p>
+          <label for="json-radio">
+            <input type="radio" name="input-type" id="json-radio" checked> JSON
+          </label>
+          <label for="string-radio">
+            <input type="radio" name="input-type" id="string-radio"> String
+          </label><br>
+
           <textarea id="matrix-input" placeholder="[&#13;&#10   [0, 1, 0],&#13;&#10   [1, 0, 1],&#13;&#10   [0, 1, 0]&#13;&#10]"></textarea>
           <button type="submit">Visualize</button><br>
           <label for="weight-checkbox">
             <input type="checkbox" name="weight-checkbox" id="weight-checkbox"> weight
           </label>
           <label for="direction-checkbox">
-          <input type="checkbox" name="direction-checkbox" id="direction-checkbox" style="margin-left: 30px;"> direction
+            <input type="checkbox" name="direction-checkbox" id="direction-checkbox" style="margin-left: 30px;"> direction
           </label>
       </form>
       <div id="tips">
