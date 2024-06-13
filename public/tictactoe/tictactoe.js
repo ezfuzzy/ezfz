@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io("/tictactoe");
 
 const boardContainer = document.getElementById("board-container");
 const board = document.getElementById("board");
@@ -22,7 +22,7 @@ resetButton.addEventListener("click", () => {
 });
 
 function handleClick(event) {
-  if (!isMyTurn || gameEnded) return; // TODO: 클라이언트의 차례가 아니거나 게임이 끝났을 때 클릭 이벤트 무시
+  if (!isMyTurn || gameEnded) return;
 
   const cell = event.target;
   const cellIndex = cell.getAttribute("data-cell-index");
@@ -79,10 +79,8 @@ function checkWin(player) {
 }
 
 function checkDraw() {
-  // cells.forEach((cell) => {
-  //   if (cell.textContent == "") return false;
-  // });
-  // return true;
+  // some || every
+  return !Array.from(cells).some((cell) => cell.textContent === "");
 }
 
 function gameEnd() {
