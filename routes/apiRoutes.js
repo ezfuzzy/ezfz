@@ -5,7 +5,7 @@ const router = express.Router();
  * -------------------------------------
  *
  * graph visualizer API
- *
+ * /api
  * -------------------------------------
  */
 router.post("/graph", (req, res) => {
