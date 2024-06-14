@@ -6,6 +6,8 @@ function visualizeGraph(matrix, showWeight, showDirection) {
   const width = 800;
   const height = 600;
   document.getElementById("graph").innerHTML = ""; // clear previous graph
+
+  //svg 초기화
   const svg = d3
     .select("#graph")
     .append("svg")
@@ -15,6 +17,7 @@ function visualizeGraph(matrix, showWeight, showDirection) {
   const defs = svg.append("defs");
 
   if (showDirection) {
+    // direction graph: 화살촉 초기화
     defs
       .append("marker")
       .attr("id", "arrowhead")
@@ -37,7 +40,7 @@ function visualizeGraph(matrix, showWeight, showDirection) {
   matrix.forEach((row, i) => {
     row.forEach((value, j) => {
       if (value !== 0) {
-        links.push({ source: i, target: j, weight: value });
+        links.push({ source: i, target: j, weight: value }); // 간선
       }
     });
   });
@@ -49,9 +52,9 @@ function visualizeGraph(matrix, showWeight, showDirection) {
       d3
         .forceLink(links)
         .id((d) => d.id)
-        .distance(150)
+        .distance(150) //간선 길이
     )
-    .force("charge", d3.forceManyBody().strength(-400))
+    .force("charge", d3.forceManyBody().strength(-400)) // 동적으로 보이게
     .force("center", d3.forceCenter(width / 2, height / 2))
     .force("collision", d3.forceCollide().radius(20));
 
@@ -64,9 +67,10 @@ function visualizeGraph(matrix, showWeight, showDirection) {
     .append("line")
     .attr("stroke-width", 2)
     .attr("stroke", "#555")
-    .attr("marker-end", showDirection ? "url(#arrowhead)" : null);
+    .attr("marker-end", showDirection ? "url(#arrowhead)" : null); // check direction graph ? add arrowhead : null
 
   if (showWeight) {
+    // weight graph
     const linkLabels = svg
       .append("g")
       .attr("class", "link-labels")
@@ -75,8 +79,8 @@ function visualizeGraph(matrix, showWeight, showDirection) {
       .enter()
       .append("text")
       .attr("class", "link-label")
-      .text((d) => d.weight)
-      .attr("font-size", 12)
+      .text((d) => d.weight) // weight setting
+      .attr("font-size", 14)
       .attr("fill", "#000")
       .attr("dy", -3);
 
@@ -94,6 +98,7 @@ function visualizeGraph(matrix, showWeight, showDirection) {
       node.attr("transform", (d) => `translate(${d.x},${d.y})`);
     });
   } else {
+    // no weight graph
     simulation.on("tick", () => {
       link
         .attr("x1", (d) => d.source.x)
@@ -125,7 +130,7 @@ function visualizeGraph(matrix, showWeight, showDirection) {
     .attr("dy", 5)
     .attr("text-anchor", "middle")
     .attr("fill", "#fff")
-    .text((d) => d.id + 1);
+    .text((d) => d.id + 1); // node numbering
 
   const drag = (simulation) => {
     function dragStarted(event, d) {
