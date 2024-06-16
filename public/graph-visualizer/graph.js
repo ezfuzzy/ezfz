@@ -91,7 +91,7 @@ function visualizeGraph(matrix, showWeight, showDirection) {
         .attr("x2", (d) => d.target.x)
         .attr("y2", (d) => d.target.y);
 
-      linkLabels
+      linkLabels // weight position
         .attr("x", (d) => (d.source.x + d.target.x) / 2)
         .attr("y", (d) => (d.source.y + d.target.y) / 2);
 

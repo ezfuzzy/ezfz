@@ -54,7 +54,6 @@ document
           return rowData;
         })
         .filter((row) => row.length > 0); // 빈 행 제거
-      console.log(matrix);
       // 최대 열 길이 구하기
       const maxLength = Math.max(...matrix.map((row) => row.length));
 
