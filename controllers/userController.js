@@ -1,6 +1,6 @@
 const passport = require("passport");
 const bcrypt = require("bcrypt");
-const { createUser, getUserByEmail, getUserById } = require("../models/User");
+const { createUser, getUserByEmail, getUserById } = require("../models/user");
 
 // 사용자 등록
 // TODO: email verification

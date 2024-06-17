@@ -1,7 +1,7 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
-const { getUserByEmail, getUserById } = require("../models/User");
+const { getUserByEmail, getUserById } = require("../models/user");
 
 // 패스포트 초기화
 passport.use(

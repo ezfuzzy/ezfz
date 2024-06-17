@@ -7,8 +7,6 @@ const passport = require("passport");
 const bodyParser = require("body-parser");
 const crypto = require("crypto");
 
-const passport = require("./config/passport");
-
 const app = express();
 const server = http.createServer(app);
 

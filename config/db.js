@@ -1,4 +1,5 @@
 const { Pool } = require("pg");
+const bcrypt = require("bcrypt");
 require("dotenv").config();
 
 const pool = new Pool({
@@ -13,18 +14,18 @@ const pool = new Pool({
 const createTables = async () => {
   const client = await pool.connect();
   try {
-    //  users 테이블
+    // users 테이블
     await client.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
-        email VARCHAR(25) UNIQUE NOT NULL,
+        email VARCHAR(50) UNIQUE NOT NULL,
         email_verified BOOLEAN DEFAULT FALSE,
-        password VARCHAR(20) NOT NULL,
-        username VARCHAR(20) UNIQUE NOT NULL,
+        password VARCHAR(100) NOT NULL,
+        username VARCHAR(50) UNIQUE NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
-    // scores 테이블 default 0:0
+    // scores 테이블
     await client.query(`
       CREATE TABLE IF NOT EXISTS scores (
         id SERIAL PRIMARY KEY,
@@ -37,11 +38,11 @@ const createTables = async () => {
     `);
 
     // 초기 사용자 생성 (username: ezfz, password: gkdus0131)
-    const salt = crypto.randomBytes(16);
-    const hashedPassword = crypto.pbkdf2Sync("gkdus0131", salt, 310000, 32, "sha256");
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash("gkdus0131", salt);
     await client.query(
-      "INSERT INTO users (username, hashed_password, salt, email_verified) VALUES ($1, $2, $3, $4) ON CONFLICT (username) DO NOTHING",
-      ["ezfz", hashedPassword, salt, false]
+      "INSERT INTO users (username, email, password, email_verified) VALUES ($1, $2, $3, $4) ON CONFLICT (username) DO NOTHING",
+      ["ezfz", "ezfz@example.com", hashedPassword, false]
     );
   } finally {
     client.release();
