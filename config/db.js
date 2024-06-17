@@ -1,45 +1,38 @@
 const { Pool } = require("pg");
+require("dotenv").config();
 
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "test00",
-  password: "sufuzzy",
-  port: 5432,
+  user: process.env.DATABASE_USER,
+  host: process.env.DATABASE_HOST,
+  database: process.env.DATABASE_NAME,
+  password: process.env.DATABASE_PASSWORD,
+  port: process.env.DATABASE_PORT,
 });
 
 // 데이터베이스 스키마 생성 함수
 const createTables = async () => {
   const client = await pool.connect();
   try {
+    //  users 테이블
     await client.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
-        username TEXT UNIQUE,
-        hashed_password BYTEA,
-        salt BYTEA,
-        name TEXT,
-        email TEXT UNIQUE,
-        email_verified BOOLEAN
+        email VARCHAR(25) UNIQUE NOT NULL,
+        email_verified BOOLEAN DEFAULT FALSE,
+        password VARCHAR(20) NOT NULL,
+        username VARCHAR(20) UNIQUE NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
-
+    // scores 테이블 default 0:0
     await client.query(`
-      CREATE TABLE IF NOT EXISTS federated_credentials (
-        id SERIAL PRIMARY KEY,
-        user_id INTEGER NOT NULL REFERENCES users(id),
-        provider TEXT NOT NULL,
-        subject TEXT NOT NULL,
-        UNIQUE (provider, subject)
-      );
-    `);
-
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS todos (
+      CREATE TABLE IF NOT EXISTS scores (
         id SERIAL PRIMARY KEY,
         owner_id INTEGER NOT NULL REFERENCES users(id),
-        title TEXT NOT NULL,
-        completed BOOLEAN
+        opponent_id INTEGER NOT NULL REFERENCES users(id),
+        game_id INTEGER NOT NULL,
+        win_count INTEGER NOT NULL,
+        lose_count INTEGER NOT NULL
       );
     `);
 

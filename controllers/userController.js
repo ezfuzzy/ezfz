@@ -3,10 +3,12 @@ const bcrypt = require("bcrypt");
 const { createUser, getUserByEmail, getUserById } = require("../models/User");
 
 // 사용자 등록
+// TODO: email verification
 const signUp = async (req, res) => {
   const { email, username, password } = req.body;
   try {
     const existingUser = await getUserByEmail(email);
+    // TODO: username check.
     if (existingUser) {
       return res.status(400).json({ error: "Email already in use" });
     }
@@ -21,16 +23,10 @@ const signUp = async (req, res) => {
 // 사용자 로그인
 const login = (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.status(400).json({ error: "Invalid email or password" });
-    }
+    if (err) return next(err);
+    if (!user) return res.status(400).json({ error: "Invalid email or password" });
     req.login(user, (err) => {
-      if (err) {
-        return next(err);
-      }
+      if (err) return next(err);
       res.status(200).json({ message: "Logged in successfully", user });
     });
   })(req, res, next);
