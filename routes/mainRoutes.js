@@ -40,27 +40,28 @@ router.get("/shareText", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "public", "shareText", "shareText.html"));
 });
 
-// sign-up page
-router.get("/sign-up", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "sign-up", "sign-up.html"));
+// signUp page
+router.get("/signUp", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public", "user", "signUp.html"));
 });
 
-// sign-in page
-router.get("/sign-in", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "sign-in", "sign-in.html"));
+// signIn page
+router.get("/signIn", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public", "user", "signIn.html"));
 });
 
+//CHECK: user-dashboard page
 // 인증된 사용자만 접근 가능하도록 미들웨어 설정
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect("/login");
+  res.redirect("/signIn");
 }
 
 // user-dashboard page: 인증된 사용자만 접근 가능
 router.get("/user-dashboard", ensureAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "user-dashboard", "user-dashboard.html"));
+  res.sendFile(path.join(__dirname, "..", "public", "user", "user-dashboard.html"));
 });
 
 module.exports = router;

@@ -5,7 +5,7 @@ const router = express.Router();
  * -------------------------------------
  *
  * graph visualizer API
- * /api
+ * 
  * -------------------------------------
  */
 router.post("/graph", (req, res) => {
@@ -16,5 +16,11 @@ router.post("/graph", (req, res) => {
   console.log(matrix);
   res.json({ matrix });
 });
+
+// score api
+
+// visualizer, simulator 이용 기록 api 
+
+
 
 module.exports = router;
