@@ -15,13 +15,6 @@ const createUser = async (email, username, password) => {
   return rows[0];
 };
 
-// 이메일로 사용자 조회
-const getUserByEmail = async (email) => {
-  const query = "SELECT * FROM users WHERE email = $1;";
-  const { rows } = await pool.query(query, [email]);
-  return rows[0];
-};
-
 // 사용자 ID로 사용자 조회
 const getUserById = async (id) => {
   const query = "SELECT * FROM users WHERE id = $1;";
@@ -29,8 +22,23 @@ const getUserById = async (id) => {
   return rows[0];
 };
 
+// 이메일로 사용자 조회
+const getUserByEmail = async (email) => {
+  const query = "SELECT * FROM users WHERE email = $1;";
+  const { rows } = await pool.query(query, [email]);
+  return rows[0];
+};
+
+// 이메일로 사용자 조회
+const getUserByUsername = async (username) => {
+  const query = "SELECT * FROM users WHERE username = $1;";
+  const { rows } = await pool.query(query, [username]);
+  return rows[0];
+};
+
 module.exports = {
   createUser,
   getUserByEmail,
   getUserById,
+  getUserByUsername,
 };

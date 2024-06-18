@@ -5,7 +5,7 @@ const { getUserByEmail, getUserById } = require("../models/user");
 
 // 패스포트 초기화
 passport.use(
-  new LocalStrategy({ usernameField: "email" }, async (email, password, done) => {
+  new LocalStrategy({ usernameField: "email", passwordField: "password" }, async (email, password, done) => {
     try {
       const user = await getUserByEmail(email);
       if (!user) {
