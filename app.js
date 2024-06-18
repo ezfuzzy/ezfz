@@ -3,7 +3,8 @@ const session = require("express-session");
 const http = require("http");
 const path = require("path");
 
-const passport = require("passport");
+// const passport = require("passport");
+const passport = require("./config/passport");
 const bodyParser = require("body-parser");
 const crypto = require("crypto");
 

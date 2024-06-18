@@ -34,7 +34,10 @@ const login = (req, res, next) => {
     if (!user) return res.status(400).json({ error: "Invalid email or password" });
     req.login(user, (err) => {
       if (err) return next(err);
+      // 로그인 성공 후 로직
       res.status(200).json({ message: "Logged in successfully", user });
+      res.redirect("/");
+
     });
   })(req, res, next);
 };
