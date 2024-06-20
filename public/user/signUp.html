@@ -43,14 +43,27 @@
               name="username"
               placeholder="Enter username"
               required />
+            <div class="invalid-feedback">Username is already taken.</div>
           </div>
           <div class="form-group">
             <label for="email">Email address</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required />
+            <div class="invalid-feedback">Email is already in use.</div>
           </div>
           <div class="form-group">
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Password" required />
+          </div>
+          <div class="form-group">
+            <label for="confirm-password">Confirm Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="confirm-password"
+              name="confirm-password"
+              placeholder="Type password one more time"
+              required />
+            <div class="invalid-feedback">Passwords do not match.</div>
           </div>
           <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
         </form>
@@ -60,8 +73,57 @@
       </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        function checkAvailability(type, value, callback) {
+          $.ajax({
+            url: "/api/auth/check" + type,
+            method: "GET",
+            data: { [type.toLowerCase()]: value },
+            success: function (response) {
+              callback(response.available);
+            },
+            error: function () {
+              callback(false);
+            },
+          });
+        }
+
+        $("#username").blur(function () {
+          const username = $(this).val();
+          checkAvailability("Username", username, function (available) {
+            if (available) {
+              $("#username").removeClass("is-invalid").addClass("is-valid");
+            } else {
+              $("#username").removeClass("is-valid").addClass("is-invalid");
+            }
+          });
+        });
+
+        $("#email").blur(function () {
+          const email = $(this).val();
+          checkAvailability("Email", email, function (available) {
+            if (available) {
+              $("#email").removeClass("is-invalid").addClass("is-valid");
+            } else {
+              $("#email").removeClass("is-valid").addClass("is-invalid");
+            }
+          });
+        });
+
+        $("#confirm-password").blur(function () {
+          const password = $("#password").val();
+          const confirmPassword = $(this).val();
+          if (password === confirmPassword) {
+            $("#confirm-password").removeClass("is-invalid").addClass("is-valid");
+          } else {
+            $("#confirm-password").removeClass("is-valid").addClass("is-invalid");
+          }
+        });
+      });
+    </script>
   </body>
 </html>
