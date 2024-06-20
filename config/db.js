@@ -42,7 +42,7 @@ const createTables = async () => {
     const hashedPassword = await bcrypt.hash("gkdus0131", salt);
     await client.query(
       "INSERT INTO users (username, email, password, email_verified) VALUES ($1, $2, $3, $4) ON CONFLICT (username) DO NOTHING",
-      ["ezfz", "ezfz@example.com", hashedPassword, false]
+      ["ezfz", "ezfz@ezfz.xyz", hashedPassword, false]
     );
   } finally {
     client.release();

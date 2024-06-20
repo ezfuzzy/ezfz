@@ -50,7 +50,6 @@ router.get("/signIn", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "public", "user", "signIn.html"));
 });
 
-//CHECK: user-dashboard page
 // 인증된 사용자만 접근 가능하도록 미들웨어 설정
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {

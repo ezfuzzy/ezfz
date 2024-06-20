@@ -34,10 +34,8 @@ const login = (req, res, next) => {
     if (!user) return res.status(400).json({ error: "Invalid email or password" });
     req.login(user, (err) => {
       if (err) return next(err);
-      // 로그인 성공 후 로직
-      res.status(200).json({ message: "Logged in successfully", user });
+      // res.status(200).json({ message: "Logged in successfully", user });
       res.redirect("/");
-
     });
   })(req, res, next);
 };
@@ -46,9 +44,14 @@ const login = (req, res, next) => {
 const logout = (req, res) => {
   req.logout((err) => {
     if (err) {
-      return res.status(500).json({ error: "Failed to log out" });
+      return res.status(500).json({ error: "Logout failed" });
     }
-    res.status(200).json({ message: "Logged out successfully" });
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(500).json({ error: "Session destruction failed" });
+      }
+      res.status(200).json({ message: "Logged out successfully" });
+    });
   });
 };
 

@@ -23,22 +23,44 @@ const getUserById = async (id) => {
 };
 
 // 이메일로 사용자 조회
-const getUserByEmail = async (email) => {
-  const query = "SELECT * FROM users WHERE email = $1;";
-  const { rows } = await pool.query(query, [email]);
-  return rows[0];
+const getUserByEmail = async (req, res) => {
+  try {
+    const { email } = req.query;
+    const query = "SELECT * FROM users WHERE email = $1;";
+    const { rows } = await pool.query(query, [email]);
+
+    if (rows.length > 0) {
+      return res.status(200).json({ available: false });
+    } else {
+      return res.status(200).json({ available: true });
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: error.message });
+  }
 };
 
-// 이메일로 사용자 조회
-const getUserByUsername = async (username) => {
-  const query = "SELECT * FROM users WHERE username = $1;";
-  const { rows } = await pool.query(query, [username]);
-  return rows[0];
+// 사용자 이름으로 사용자 조회
+const getUserByUsername = async (req, res) => {
+  try {
+    const { username } = req.query;
+    const query = "SELECT * FROM users WHERE username = $1;";
+    const { rows } = await pool.query(query, [username]);
+
+    if (rows.length > 0) {
+      return res.status(200).json({ available: false });
+    } else {
+      return res.status(200).json({ available: true });
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: error.message });
+  }
 };
 
 module.exports = {
   createUser,
-  getUserByEmail,
   getUserById,
+  getUserByEmail,
   getUserByUsername,
 };
