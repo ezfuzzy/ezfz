@@ -18,6 +18,7 @@ passport.use(
         return done(null, false, { message: "Incorrect email or password." });
       }
 
+      // serializeUser에서 사용자 정보를 세션에 저장
       return done(null, user);
     } catch (err) {
       return done(err);
@@ -25,16 +26,15 @@ passport.use(
   })
 );
 
-// 직렬화
 passport.serializeUser((user, done) => {
+  // $1: error, $2: identifier
   done(null, user.id);
 });
 
-// 역직렬화
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await getUserById(id);
-    done(null, user);
+    done(null, user); // >  req.user 설정
   } catch (err) {
     done(err);
   }

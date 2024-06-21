@@ -5,7 +5,6 @@ const path = require("path");
 
 // const passport = require("passport");
 const passport = require("./config/passport");
-const bodyParser = require("body-parser");
 const crypto = require("crypto");
 
 const app = express();
@@ -29,9 +28,6 @@ const io = socketServer(server);
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
 const secretKey = crypto.randomBytes(64).toString("hex");
 

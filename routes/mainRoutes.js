@@ -42,12 +42,12 @@ router.get("/shareText", (req, res) => {
 
 // signUp page
 router.get("/signUp", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "user", "signUp.html"));
+  res.sendFile(path.join(__dirname, "..", "public", "views", "user", "signUp.html"));
 });
 
 // signIn page
 router.get("/signIn", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "user", "signIn.html"));
+  res.sendFile(path.join(__dirname, "..", "public", "views", "user", "signIn.html"));
 });
 
 // 인증된 사용자만 접근 가능하도록 미들웨어 설정
@@ -60,7 +60,7 @@ function ensureAuthenticated(req, res, next) {
 
 // user-dashboard page: 인증된 사용자만 접근 가능
 router.get("/user-dashboard", ensureAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "user", "user-dashboard.html"));
+  res.sendFile(path.join(__dirname, "..", "public", "views", "user", "user-dashboard.html"));
 });
 
 module.exports = router;
