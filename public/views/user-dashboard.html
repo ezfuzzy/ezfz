@@ -15,18 +15,21 @@
         border-radius: 10px;
         background-color: #fff;
       }
+
       .profile-pic-wrapper {
         position: relative;
         width: 150px;
         height: 150px;
         margin-bottom: 10px;
       }
+
       .profile-pic {
         width: 100%;
         height: 100%;
         object-fit: cover;
         border-radius: 50%;
       }
+
       .profile-pic-label {
         position: absolute;
         top: 0;
@@ -35,8 +38,9 @@
         height: 100%;
         cursor: pointer;
       }
-      .custom-file-label::after {
-        content: "Choose file";
+
+      textarea {
+        resize: none;
       }
     </style>
   </head>
@@ -84,13 +88,33 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
+      document.addEventListener("DOMContentLoaded", async () => {
         const profilePicInput = document.getElementById("profilePicInput");
         const profilePicLabel = document.querySelector('label[for="profilePicInput"] img');
         const emailInput = document.getElementById("email");
         const emailStatus = document.getElementById("email-status");
         const currentUsername = document.getElementById("current-username");
+        const usernameInput = document.getElementById("username");
         const bio = document.getElementById("bio");
+        const bioInput = document.getElementById("bio-input");
+
+        try {
+          const response = await fetch("/api/auth/user");
+          const user = await response.json();
+
+          currentUsername.textContent = user.username;
+          bio.textContent = user.bio || "Type your bio here.";
+
+          usernameInput.value = user.username; // TODO: blur 실시간 처리할까?
+          emailInput.value = user.email;
+          bioInput.value = user.bio || "Type your bio here.";
+          emailStatus.textContent = user.emailVerified ? "Yes" : "No";
+          if (user.profilePicture) {
+            profilePicLabel.src = user.profilePicture;
+          }
+        } catch (error) {
+          console.error("Failed to fetch user data:", error);
+        }
 
         profilePicInput.addEventListener("change", (event) => {
           const file = event.target.files[0];
