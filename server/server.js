@@ -1,0 +1,71 @@
+const express = require("express");
+const session = require("express-session");
+const http = require("http");
+const path = require("path");
+const cors = require("cors");
+
+const passport = require("./config/passport");
+const crypto = require("crypto");
+
+const app = express();
+const server = http.createServer(app);
+
+const authRoutes = require("./routes/authRoutes");
+const apiRoutes = require("./routes/apiRoutes");
+
+const socketServer = require("./sockets/socketServer");
+const io = socketServer(server); // eslint-disable-line no-unused-vars
+
+/**
+ * -------------------------------------
+ *
+ * Middleware
+ *
+ * -------------------------------------
+ */
+
+app.use(express.static(path.join(__dirname, "..", "client", "build")));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(cors());
+
+const secretKey = crypto.randomBytes(64).toString("hex");
+
+// 세션 설정
+app.use(
+  session({
+    secret: secretKey,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+/**
+ * -------------------------------------
+ *
+ * Routes
+ *
+ * -------------------------------------
+ */
+
+app.use("/api", apiRoutes);
+app.use("/api/auth", authRoutes);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
+});
+
+const PORT = process.env.PORT || 8080;
+/**
+ * -------------------------------------
+ *
+ * Server on
+ *
+ * -------------------------------------
+ */
+server.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
