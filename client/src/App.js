@@ -12,11 +12,11 @@ import Omok from "./pages/Omok";
 import TicTacToe from "./pages/Tictactoe";
 
 //TODO: 왜인지 모르겠는데 Tictactoe.css가 전역 css로 적용되고 index.css의 내용은 전혀 반영이 안됨
-//TODO: admin page 
-//TODO: memory page 
-//TODO: matrix page 
-//TODO: fuzzy page 
-//TODO:  PurgeCSS 적용 
+// admin page 
+// memory page 
+// matrix page 
+// fuzzy page 
+//  PurgeCSS 적용 
 function App() {
   const isAuthenticated = () => {
     // 인증 상태 확인

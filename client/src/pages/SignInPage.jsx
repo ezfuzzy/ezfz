@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "../index.css";
 
 const SignInPage = () => {
   const [showPassword, setShowPassword] = useState(false);

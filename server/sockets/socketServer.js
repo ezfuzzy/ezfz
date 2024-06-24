@@ -1,107 +1,32 @@
 const socketIo = require("socket.io");
+const tictactoeHandler = require("./handlers/tictactoeHandler");
+const omokHandler = require("./handlers/omokHandler");
+const catchMindHandler = require("./handlers/catchMindHandler");
 
 function socketServer(server) {
-  const io = socketIo(server);
-  /**
-   * -------------------------------------
-   *
-   * Socket - Chat, Notification (Main Socket)
-   *
-   * -------------------------------------
-   */
+  const io = socketIo(server, {
+    cors: {
+      origin: process.env.CLIENT_URL || "http://localhost:3000",
+      methods: ["GET", "POST"],
+    },
+  });
 
-  /**
-   * -------------------------------------
-   *
-   * Socket - TicTacToe
-   *
-   * -------------------------------------
-   */
+  io.on("connection", (socket) => {
+    console.log(`Main user connected: ${socket.id}`);
 
-  io.of("/tictactoe").on("connection", (socket) => {
-    console.log(
-      `Tictactoe User connected: ${new Date().toLocaleTimeString("en-GB", {
-        hour12: false,
-      })}`
-    );
-
-    socket.on("move", (data) => {
-      socket.broadcast.emit("move", data);
-      socket.broadcast.emit("turnChange", {
-        nextPlayer: data.player === "X" ? "O" : "X",
-      });
-    });
-
-    socket.on("win", (data) => {
-      io.emit("win", data);
-    });
-
-    socket.on("draw", () => {
-      io.emit("draw");
-    });
-
-    socket.on("gameEnd", () => {
-      io.emit("gameEnd");
-    });
-
-    socket.on("reset", () => {
-      io.emit("reset");
+    socket.on("error", (error) => {
+      console.error(`Socket ${socket.id} error:`, error);
     });
 
     socket.on("disconnect", () => {
-      console.log(
-        `Tictactoe User disconnected: ${new Date().toLocaleTimeString("en-GB", {
-          hour12: false,
-        })}`
-      );
+      console.log(`Main user disconnected: ${socket.id}`);
     });
   });
 
-  /**
-   * -------------------------------------
-   *
-   * Socket - Omok
-   *
-   * -------------------------------------
-   */
-  io.of("/omok").on("connection", (socket) => {
-    console.log(
-      `Omok User connected: ${new Date().toLocaleTimeString("en-GB", {
-        hour12: false,
-      })}`
-    );
+  tictactoeHandler(io.of("/tictactoe"));
+  omokHandler(io.of("/omok"));
+  catchMindHandler(io.of("/catchMind"));
 
-    socket.on("disconnect", () => {
-      console.log(
-        `Omok User disconnected: ${new Date().toLocaleTimeString("en-GB", {
-          hour12: false,
-        })}`
-      );
-    });
-  });
-
-  /**
-   * -------------------------------------
-   *
-   * Socket - CatchMind
-   *
-   * -------------------------------------
-   */
-  io.of("/catchMind").on("connection", (socket) => {
-    console.log(
-      `catchMind User connected: ${new Date().toLocaleTimeString("en-GB", {
-        hour12: false,
-      })}`
-    );
-
-    socket.on("disconnect", () => {
-      console.log(
-        `catchMind User disconnected: ${new Date().toLocaleTimeString("en-GB", {
-          hour12: false,
-        })}`
-      );
-    });
-  });
   return io;
 }
 

@@ -18,7 +18,7 @@ const SignUpPage = () => {
 
   const checkAvailability = (type, value) => {
     axios
-      .get(`/api/auth/check${type}`, { params: { [type.toLowerCase()]: value } })
+      .get(`${process.env.API_URL}/api/auth/check${type}`, { params: { [type.toLowerCase()]: value } })
       .then((response) => {
         if (type === "Username") {
           setUsernameValid(response.data.available);
