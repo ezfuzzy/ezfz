@@ -14,6 +14,8 @@ const SignUpPage = () => {
   const [passwordValid, setPasswordValid] = useState(null);
   const [isFormValid, setIsFormValid] = useState(false);
 
+  // TODO: api route, sign up logic 
+
   const checkAvailability = (type, value) => {
     axios
       .get(`/api/auth/check${type}`, { params: { [type.toLowerCase()]: value } })

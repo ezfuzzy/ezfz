@@ -5,10 +5,12 @@ import "../index.css";
 const SignInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
+  //TODO: login logic
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
+  
   return (
     <div className="flex items-center justify-center min-h-[80vh] bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-80">

@@ -10,7 +10,7 @@ const UserDashboard = () => {
     emailVerified: false,
     profilePicture: "",
   });
-
+  //TODO: fetch user data from server with axios / api route
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -23,6 +23,7 @@ const UserDashboard = () => {
     fetchUserData();
   }, []);
 
+  //TODO: 업로드하면 바로 랜더링해주기 
   const handleProfilePicChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -46,7 +47,7 @@ const UserDashboard = () => {
     // TODO: 서버에 데이터 전송
   };
 
-  const handleLogout = () => {
+  const handleLogout = () => { // TODO: api route
     axios
       .get("/api/auth/logout", { withCredentials: true })
       .then((response) => {
