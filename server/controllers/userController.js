@@ -25,13 +25,24 @@ const signUp = async (req, res) => {
 
 // 사용자 로그인
 const login = (req, res, next) => {
-  passport.authenticate("local", (err, user) => {
-    if (err) return next(err);
-    if (!user) return res.status(400).json({ error: "Invalid email or password" });
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return res.status(500).json({ error: "An error occurred during authentication" });
+    }
+    if (!user) {
+      return res.status(400).json({ error: info.message || "Invalid email or password" });
+    }
     req.login(user, (err) => {
-      if (err) return next(err);
-      // res.status(200).json({ message: "Logged in successfully", user });
-      res.redirect("/");
+      if (err) {
+        return res.status(500).json({ error: "An error occurred during login" });
+      }
+      // 민감한 정보를 제외한 사용자 정보만 반환
+      const userInfo = {
+        id: user.id,
+        email: user.email,
+        username: user.username
+      };
+      return res.status(200).json({ message: "Logged in successfully", user: userInfo });
     });
   })(req, res, next);
 };
