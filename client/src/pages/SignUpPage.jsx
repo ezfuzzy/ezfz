@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "tailwindcss/tailwind.css";
 
+const API_URL = process.env.API_URL;
+
 const SignUpPage = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -14,11 +16,11 @@ const SignUpPage = () => {
   const [passwordValid, setPasswordValid] = useState(null);
   const [isFormValid, setIsFormValid] = useState(false);
 
-  // TODO: api route, sign up logic 
+  // TODO: api route, sign up logic
 
   const checkAvailability = (type, value) => {
     axios
-      .get(`${process.env.API_URL}/api/auth/check${type}`, { params: { [type.toLowerCase()]: value } })
+      .get(`${API_URL}/api/auth/check${type}`, { params: { [type.toLowerCase()]: value } })
       .then((response) => {
         if (type === "Username") {
           setUsernameValid(response.data.available);

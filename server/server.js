@@ -20,7 +20,13 @@ const socketServer = require("./sockets/socketServer");
 app.use(express.static(path.join(__dirname, "..", "client", "build")));
 app.use(express.json());
 app.use(cors());
+/* 
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true
+}));
 
+*/
 const secretKey = crypto.randomBytes(64).toString("hex");
 
 app.use(
