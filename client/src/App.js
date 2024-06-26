@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import axios from "axios";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -19,10 +20,31 @@ import { UserProvider } from "./contexts/UserContext";
 // fuzzy page
 //  PurgeCSS 적용
 function App() {
-  const isAuthenticated = () => {
-    // 인증 상태 확인
-    return !!localStorage.getItem("isAuthenticated");
-  };
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/auth/user");
+        console.log("Authenticated user:", res.data.user);
+        setUser(res.data.user);
+      } catch (error) {
+        console.error("Authentication error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkAuth();
+  }, []);
+
+  useEffect(() => {
+    console.log("User state updated: ", user);
+  }, [user]);
+
+  if (loading) {
+    return <div>Loading...</div>; // 로딩 중 표시할 내용
+  }
 
   return (
     <UserProvider>
@@ -33,7 +55,7 @@ function App() {
 
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/user-dashboard" element={isAuthenticated() ? <UserDashboard /> : <Navigate to="/sign-in" />} />
+          <Route path="/user-dashboard" element={user ? <UserDashboard user={user}/> : <Navigate to="/sign-in" />} />
 
           <Route path="/tictactoe" element={<TicTacToe />} />
           <Route path="/catchmind" element={<CatchMind />} />
