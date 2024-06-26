@@ -27,6 +27,7 @@ const signUp = async (req, res) => {
 const login = (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
+      console.error("인증 오류:", err);
       return res.status(500).json({ error: "An error occurred during authentication" });
     }
     if (!user) {
@@ -34,13 +35,14 @@ const login = (req, res, next) => {
     }
     req.login(user, (err) => {
       if (err) {
+        console.error("로그인 오류:", err);
         return res.status(500).json({ error: "An error occurred during login" });
       }
       // 민감한 정보를 제외한 사용자 정보만 반환
       const userInfo = {
         id: user.id,
         email: user.email,
-        username: user.username
+        username: user.username,
       };
       return res.status(200).json({ message: "Logged in successfully", user: userInfo });
     });

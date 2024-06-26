@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "tailwindcss/tailwind.css";
 
-const API_URL = process.env.API_URL;
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 const SignUpPage = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   // validation states
   const [usernameValid, setUsernameValid] = useState(null);
@@ -16,31 +19,30 @@ const SignUpPage = () => {
   const [passwordValid, setPasswordValid] = useState(null);
   const [isFormValid, setIsFormValid] = useState(false);
 
-  // TODO: api route, sign up logic
-
-  const checkAvailability = (type, value) => {
-    axios
-      .get(`${API_URL}/api/auth/check${type}`, { params: { [type.toLowerCase()]: value } })
-      .then((response) => {
-        if (type === "Username") {
-          setUsernameValid(response.data.available);
-        } else if (type === "Email") {
-          setEmailValid(response.data.available);
-        }
-      })
-      .catch(() => {
-        if (type === "Username") {
-          setUsernameValid(false);
-        } else if (type === "Email") {
-          setEmailValid(false);
-        }
+  const checkAvailability = async (type, value) => {
+    try {
+      const response = await axios.get(`${REACT_APP_API_URL}/api/auth/check${type}`, {
+        params: { [type.toLowerCase()]: value },
       });
+      if (type === "Username") {
+        setUsernameValid(response.data.available);
+      } else if (type === "Email") {
+        setEmailValid(response.data.available);
+      }
+    } catch (error) {
+      console.error(`Error checking ${type} availability:`, error);
+      if (type === "Username") {
+        setUsernameValid(false);
+      } else if (type === "Email") {
+        setEmailValid(false);
+      }
+    }
   };
 
   const handleBlur = (type) => {
-    if (type === "username") {
+    if (type === "username" && username) {
       checkAvailability("Username", username);
-    } else if (type === "email") {
+    } else if (type === "email" && email) {
       checkAvailability("Email", email);
     } else if (type === "confirmPassword") {
       setPasswordValid(password === confirmPassword);
@@ -55,6 +57,26 @@ const SignUpPage = () => {
     }
   }, [usernameValid, emailValid, passwordValid]);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!isFormValid) {
+      setErrorMessage("Please correct the form errors before submitting.");
+      return;
+    }
+    try {
+      const response = await axios.post(`${REACT_APP_API_URL}/api/auth/signUp`, {
+        email,
+        username,
+        password,
+      });
+      if (response.data.message === "User signUp successfully") {
+        navigate("/sign-in");
+      }
+    } catch (error) {
+      setErrorMessage(error.response.data.error || "An error occurred during sign up");
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[80vh] bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -62,7 +84,7 @@ const SignUpPage = () => {
           <img src="../images/ezfuzzy.png" alt="Logo" className="mx-auto mb-6 h-16" />
         </a>
         <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
-        <form action="/api/auth/signUp" method="POST">
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="username" className="block text-gray-700 font-bold mb-2">
               Username
@@ -135,6 +157,7 @@ const SignUpPage = () => {
             />
             {passwordValid === false && <p className="text-red-500 text-xs">Passwords do not match.</p>}
           </div>
+          {errorMessage && <div className="mb-4 text-red-500 text-sm">{errorMessage}</div>}
           <button
             type="submit"
             className={`w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 ${

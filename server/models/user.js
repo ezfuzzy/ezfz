@@ -23,38 +23,26 @@ const getUserById = async (id) => {
 };
 
 // 이메일로 사용자 조회
-const getUserByEmail = async (req, res) => {
+const getUserByEmail = async (email) => {
   try {
-    const { email } = req.query;
     const query = "SELECT * FROM users WHERE email = $1;";
     const { rows } = await pool.query(query, [email]);
-
-    if (rows.length > 0) {
-      return res.status(200).json({ available: false });
-    } else {
-      return res.status(200).json({ available: true });
-    }
+    return rows[0];
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: error.message });
+    console.error("Error in getUserByEmail:", error);
+    throw error;
   }
 };
 
 // 사용자 이름으로 사용자 조회
-const getUserByUsername = async (req, res) => {
+const getUserByUsername = async (username) => {
   try {
-    const { username } = req.query;
     const query = "SELECT * FROM users WHERE username = $1;";
     const { rows } = await pool.query(query, [username]);
-
-    if (rows.length > 0) {
-      return res.status(200).json({ available: false });
-    } else {
-      return res.status(200).json({ available: true });
-    }
+    return rows[0];
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: error.message });
+    console.error("Error in getUserByUsername:", error);
+    throw error;
   }
 };
 

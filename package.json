@@ -2,7 +2,7 @@
   "name": "zfze",
   "version": "1.0.0",
   "description": "www.ezfuzzy.xyz\r blog: https://velog.io/@fuzzy/ezfz-main00",
-  "main": "index.js",
+  "main": "server.js",
   "homepage": ".",
   "scripts": {
     "client": "npm start --prefix client",

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+
 const UserDashboard = () => {
   const [user, setUser] = useState({
     username: "",
@@ -14,7 +16,7 @@ const UserDashboard = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("/api/auth/user");
+        const response = await axios.get(`${REACT_APP_API_URL}/api/auth/user`);
         setUser(response.data);
       } catch (error) {
         console.error("Failed to fetch user data:", error);
@@ -23,7 +25,7 @@ const UserDashboard = () => {
     fetchUserData();
   }, []);
 
-  //TODO: 업로드하면 바로 랜더링해주기 
+  //TODO: 업로드하면 바로 랜더링해주기
   const handleProfilePicChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -47,7 +49,8 @@ const UserDashboard = () => {
     // TODO: 서버에 데이터 전송
   };
 
-  const handleLogout = () => { // TODO: api route
+  const handleLogout = () => {
+    // TODO: api route
     axios
       .get("/api/auth/logout", { withCredentials: true })
       .then((response) => {
@@ -65,18 +68,9 @@ const UserDashboard = () => {
           <div className="col-md-4 d-flex flex-column align-items-center">
             <div className="profile-pic-wrapper">
               <label htmlFor="profilePicInput" className="profile-pic-label">
-                <img
-                  src={user.profilePicture || "profile.jpg"}
-                  alt="Profile"
-                  className="profile-pic"
-                />
+                <img src={user.profilePicture || "profile.jpg"} alt="Profile" className="profile-pic" />
               </label>
-              <input
-                type="file"
-                id="profilePicInput"
-                className="d-none"
-                onChange={handleProfilePicChange}
-              />
+              <input type="file" id="profilePicInput" className="d-none" onChange={handleProfilePicChange} />
             </div>
             <h3>{user.username}</h3>
             <p>{user.bio || "This is a short bio about the user."}</p>
@@ -101,13 +95,7 @@ const UserDashboard = () => {
               </div>
               <div className="form-group">
                 <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  className="form-control"
-                  value={user.email}
-                  disabled
-                />
+                <input type="email" id="email" className="form-control" value={user.email} disabled />
               </div>
               <div className="form-group">
                 <label htmlFor="bio-input">Bio</label>
@@ -126,19 +114,14 @@ const UserDashboard = () => {
               </div>
               <div className="form-group">
                 <p>
-                  Email Verified:{" "}
-                  <span>{user.emailVerified ? "Yes" : "No"}</span>
+                  Email Verified: <span>{user.emailVerified ? "Yes" : "No"}</span>
                 </p>
               </div>
               <button type="submit" className="btn btn-primary btn-block mt-3">
                 Edit
               </button>
             </form>
-            <button
-              id="logoutButton"
-              className="btn btn-danger btn-block mt-3"
-              onClick={handleLogout}
-            >
+            <button id="logoutButton" className="btn btn-danger btn-block mt-3" onClick={handleLogout}>
               Logout
             </button>
           </div>

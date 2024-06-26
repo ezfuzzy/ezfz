@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useUser } from "../contexts/UserContext";
 
 function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user } = useUser();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -103,7 +105,11 @@ function Header() {
             <img src="/images/svg/chat.svg" alt="Chat" className="h-6 w-6" />
           </a>
           <a href="/user-dashboard">
-            <img src="/images/svg/user.svg" alt="User Dashboard" className="h-6 w-6" />
+            <img
+              src={user ? "/images/svg/user-signIn.svg" : "/images/svg/user.svg"}
+              alt="User Dashboard"
+              className="h-6 w-6"
+            />
           </a>
         </div>
       </header>

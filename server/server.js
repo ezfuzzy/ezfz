@@ -14,19 +14,34 @@ const server = http.createServer(app);
 const authRoutes = require("./routes/authRoutes");
 const apiRoutes = require("./routes/apiRoutes");
 
-const socketServer = require("./sockets/socketServer");
+// const socketServer = require("./sockets/socketServer");
 
 // Middleware
 app.use(express.static(path.join(__dirname, "..", "client", "build")));
 app.use(express.json());
-app.use(cors());
-/* 
-app.use(cors({
-  origin: "http://localhost:3000",
-  credentials: true
-}));
 
-*/
+// CORS 미들웨어 설정
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Credentials", true);
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
+app.use(
+  cors({
+    origin: "http://localhost:3000", // React 앱의 주소
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+app.options("*", cors());
+
 const secretKey = crypto.randomBytes(64).toString("hex");
 
 app.use(
@@ -34,6 +49,11 @@ app.use(
     secret: secretKey,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      //TODO: secure option
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60,
+    },
   })
 );
 
@@ -51,7 +71,7 @@ app.get("*", (req, res) => {
 const PORT = process.env.PORT || 8080;
 
 // Socket.IO 서버 설정
-socketServer(server);
+// socketServer(server);
 
 // 서버 시작
 server.listen(PORT, () => {

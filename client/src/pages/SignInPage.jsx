@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useUser } from "../contexts/UserContext";
 
-const API_URL = process.env.API_URL;
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 const SignInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -9,13 +11,14 @@ const SignInPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   const handleSignIn = async (e) => {
     e.preventDefault();
 
     try {
       const response = await axios.post(
-        `${API_URL}/api/auth/signIn`,
+        `${REACT_APP_API_URL}/api/auth/signIn`,
         { email, password },
         {
           headers: {
@@ -27,7 +30,8 @@ const SignInPage = () => {
 
       if (response.status === 200) {
         setUser(response.data.user); // > react context api
-        navigate("/user-dashboard");
+        navigate("/");
+        // navigate("/user-dashboard");
       }
     } catch (error) {
       if (error.response) {
